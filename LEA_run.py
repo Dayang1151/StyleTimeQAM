@@ -1,0 +1,126 @@
+import torch
+import torch.nn as nn
+import time
+from tqdm import tqdm
+from sklearn.metrics import roc_auc_score
+
+
+def train(params, model, sentence_all, user_all, timestamp_all,label_all,match_all, optimizer, criterion,max_gradient_norm):
+    model.train()
+    device = model.device
+    N = len(label_all) // params.batch_size
+    running_loss = 0.0
+    match_all_prob = []
+    match_all_labels = []
+    label_all_prob = []
+    label_all_labels = []
+    for i in range(N):
+        # print(i)
+        input_sen = sentence_all[i * params.batch_size:(i + 1) * params.batch_size + 200].to(device)
+        input_user = user_all[i * params.batch_size:(i + 1) * params.batch_size + 100].to(device)
+        label = label_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+        match = match_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+        input_timestamp = timestamp_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+        # print(input_sen)
+        # print(input_user)
+        # print(label)
+        # print(match)
+        # print(input_timestamp)
+
+        optimizer.zero_grad()
+        label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp)
+        # loss_label = criterion(label_logits, label)
+        loss_match = criterion(match_logits, match.reshape(-1))
+
+        # loss = loss_label * 0.2 + loss_match * 0.8
+        loss_match.backward()
+        # loss_label.backword()
+
+        # label_logits, label_probs = model(input_sen, input_user, input_timestamp)
+        # loss = criterion(label_logits, label)
+        # loss.backward()
+
+        running_loss += loss_match.item()
+        nn.utils.clip_grad_norm_(model.parameters(), max_gradient_norm)
+        optimizer.step()
+        match_all_prob.extend(match_probs[:, 1].cpu().detach().numpy())
+        for i in range(len(match)):
+            match_all_labels.extend(match[i].cpu())
+        label_all_prob.extend(label_probs[:, 1].cpu().detach().numpy())
+        label_all_labels.extend(label.cpu())
+    epoch_loss = running_loss / len(sentence_all)
+    return epoch_loss,roc_auc_score(label_all_labels,label_all_prob),roc_auc_score(match_all_labels, match_all_prob)
+    # return epoch_loss,roc_auc_score(label_all_labels,label_all_prob)
+
+
+def correct_predictions(output_probabilities, targets):
+    """
+    Compute the number of predictions that match some target classes in the
+    output of a model.
+    Args:
+        output_probabilities: A tensor of probabilities for different output
+            classes.
+        targets: The indices of the actual target classes.
+    Returns:
+        The number of correct predictions in 'output_probabilities'.
+    """
+    _, out_classes = output_probabilities.max(dim=1)
+    correct = (out_classes == targets).sum()
+    return correct.item()
+
+
+# def valid(params, model, sentence_all, user_all, timestamp_all,label_all,match_all, criterion):
+#     model.eval()
+#     device = model.device
+#     N = len(user_all) // params.batch_size
+#     running_loss = 0.0
+#     match_all_prob = []
+#     match_all_labels = []
+#     label_all_prob = []
+#     label_all_labels = []
+#     for i in range(N):
+#         input_sen = sentence_all[i * params.batch_size:(i + 1) * params.batch_size + 200].to(device)
+#         input_user = user_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+#         label = label_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+#         match = match_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+#         input_timestamp = timestamp_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+#         label_logits, label_probs= model(input_sen, input_user, input_timestamp)
+#         # label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp)
+#         loss = criterion(label_logits,label)
+#         # loss_label = criterion(label_logits, label)
+#         # loss_match = criterion(match_logits, match)
+#         # loss = loss_label * 0.2 + loss_match * 0.8
+#         running_loss += loss.item()
+#         # match_all_prob.extend(match_probs[:, 1].cpu().numpy())
+#         # match_all_labels.extend(match)
+#         label_all_prob.extend(label_probs[:, 1].cpu().detach().numpy())
+#         label_all_labels.extend(label.cpu())
+#     epoch_loss = running_loss / len(sentence_all)
+#     return epoch_loss,roc_auc_score(label_all_labels,label_all_prob)
+#
+#
+# def test(params, model,sentence_all, user_all, timestamp_all,label_all,match_all):
+#     model.eval()
+#     device = model.device
+#     N = len(user_all) // params.batch_size
+#     match_all_prob = []
+#     match_all_labels = []
+#     label_all_prob = []
+#     label_all_labels = []
+#     for i in range(N):
+#         input_sen = sentence_all[i * params.batch_size:(i + 1) * params.batch_size + 200].to(device)
+#         input_user = user_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+#         label = label_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+#         match = match_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+#         input_timestamp = timestamp_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
+#         label_logits, label_probs= model(input_sen, input_user, input_timestamp)
+#         # label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp)
+#         # loss_label = criterion(label_logits, label)
+#         # loss_match = criterion(match_logits, match)
+#         # loss = loss_label * 0.2 + loss_match * 0.8
+#         # match_all_prob.extend(match_probs[:, 1].cpu().numpy())
+#         # match_all_labels.extend(match)
+#         label_all_prob.extend(label_probs[:, 1].cpu().detach().numpy())
+#         label_all_labels.extend(label.cpu())
+#
+#     return roc_auc_score(label_all_labels,label_all_prob)
