@@ -113,6 +113,9 @@ class LEAGUE(nn.Module):
         self.embedding_user = nn.Embedding(args.user_num + 1,embedding_dim=args.embedding_dim)
         self.embedding_sen.to(device)
         self.embedding_user.to(device)
+
+        self.embedding_size = args.embedding_dim
+
         self.LSTM = nn.LSTM(input_size=args.embedding_dim, hidden_size=args.lstm_hidden_size, bidirectional=True, batch_first=True)
         self.pooling = nn.AvgPool1d(kernel_size=2)  # emd_size / 2
         self.attention = DotProductAttention(0.5)
@@ -157,7 +160,7 @@ class LEAGUE(nn.Module):
         # user_embed (batch_Size,1,embedding_dim)
         user_conn = user_connect(user_embed=user_embed,batch_size=self.batch_size,context_num=100)  # (batch_size,100,1,embedding_dim)
         user_embed_match = user_embed.unsqueeze(1)  # user_embed (batch_Size + 100,1,1,embedding_size)
-        user_embed_match = user_embed_match.expand(self.batch_size + 100, 100, 1,50)  # user_embed (batch_Size,100,1,embedding_size)
+        user_embed_match = user_embed_match.expand(self.batch_size + 100, 100, 1,self.embedding_size)  # user_embed (batch_Size,100,1,embedding_size)
         user_final = torch.cat([user_embed_match[:self.batch_size],user_conn],dim=2)  # user_embed (batch_Size,100,2,embedding_size)
         user_final = user_final.reshape(user_final.shape[0],user_final.shape[1],-1)  # user_embed (batch_Size,100,2 * embedding_size)
         #  matching degrees between user style end
@@ -166,7 +169,7 @@ class LEAGUE(nn.Module):
         # att_output (batch_size + 200,1,embedding_dim)
         sen_conn = user_connect(user_embed=s_att_output,batch_size=self.batch_size,context_num=100)
         sen_att_out = s_att_output.unsqueeze(1)  # sen_att_out (batch_Size + 100,1,1,embedding_size)
-        sen_att_out = sen_att_out.expand(self.batch_size + 100, 100, 1,100)
+        sen_att_out = sen_att_out.expand(self.batch_size + 100, 100, 1,self.embedding_size * 2)
         sen_final = torch.cat([sen_att_out[:self.batch_size],sen_conn],dim=2)  # sen_final (batch_Size,100,2,embedding_size)
         sen_final = sen_final.reshape(sen_final.shape[0],sen_final.shape[1],-1) # sen_final (batch_Size,100,2 * embedding_size)
         #  matching degrees between text information end
@@ -203,6 +206,3 @@ class LEAGUE(nn.Module):
 
         return label_logits,label_probs,match_logits,match_probs
         # return label_logits,label_probs
-        # out_label (batch_size,1)
-        # out_match (batch_size,100,1)
-    # (batch_size,context_num*2,sqelen)
