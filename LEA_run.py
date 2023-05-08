@@ -5,7 +5,8 @@ from tqdm import tqdm
 from sklearn.metrics import roc_auc_score
 
 
-def train(params, model, sentence_all, user_all, timestamp_all,label_all,match_all, optimizer, criterion,max_gradient_norm):
+def train(params, model, sentence_all, user_all, timestamp_all,label_all,match_all, optimizer, criterion,
+          max_gradient_norm,first_weight):
     model.train()
     device = model.device
     N = len(label_all) // params.batch_size
@@ -24,17 +25,18 @@ def train(params, model, sentence_all, user_all, timestamp_all,label_all,match_a
         input_timestamp = timestamp_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
 
         optimizer.zero_grad()
-        label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp)
+        label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp,params.t_p)
         ###################################################
-        # loss_label = criterion(label_logits, label)
-        # loss_match = criterion(match_logits, match.reshape(-1))
-        # loss = loss_label * 0.01 + loss_match * 0.99
-        # loss.backward()
-        ###################################################
+        loss_label = criterion(label_logits, label)
         loss_match = criterion(match_logits, match.reshape(-1))
-        loss_match.backward()
+        loss = (loss_label * first_weight) + loss_match
+        loss.backward()
+        running_loss += loss.item()
         ###################################################
-        running_loss += loss_match.item()
+        # loss_match = criterion(match_logits, match.reshape(-1))
+        # loss_match.backward()
+        # running_loss += loss.item()
+        ###################################################
         nn.utils.clip_grad_norm_(model.parameters(), max_gradient_norm)
         optimizer.step()
         match_all_prob.extend(match_probs[:, 1].cpu().detach().numpy())
@@ -63,7 +65,7 @@ def correct_predictions(output_probabilities, targets):
     return correct.item()
 
 
-def valid(params, model, sentence_all, user_all, timestamp_all,label_all,match_all, criterion):
+def valid(params, model, sentence_all, user_all, timestamp_all,label_all,match_all, criterion,first_weight):
     model.eval()
     device = model.device
     N = len(label_all) // params.batch_size
@@ -79,17 +81,17 @@ def valid(params, model, sentence_all, user_all, timestamp_all,label_all,match_a
         label = label_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
         match = match_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
         input_timestamp = timestamp_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
-        label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp)
+        label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp,params.t_p)
         # loss = criterion(label_logits,label)
+        ###################################################
+        loss_label = criterion(label_logits, label)
+        loss_match = criterion(match_logits, match.reshape(-1))
+        loss = (loss_label * first_weight) + loss_match
+        running_loss += loss.item()
         ###################################################
         # loss_label = criterion(label_logits, label)
         # loss_match = criterion(match_logits, match.reshape(-1))
-        # loss = loss_label * 0.01 + loss_match * 0.99
-        # running_loss += loss.item()
-        ###################################################
-        # loss_label = criterion(label_logits, label)
-        loss_match = criterion(match_logits, match.reshape(-1))
-        running_loss += loss_match.item()
+        # running_loss += loss_match.item()
         ###################################################
         # match_all_prob.extend(match_probs[:, 1].cpu().numpy())
         # match_all_labels.extend(match)
@@ -119,7 +121,7 @@ def test(params, model,sentence_all, user_all, timestamp_all,label_all,match_all
         match = match_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
         input_timestamp = timestamp_all[i * params.batch_size:(i + 1) * params.batch_size].to(device)
         # label_logits, label_probs= model(input_sen, input_user, input_timestamp)
-        label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp)
+        label_logits, label_probs, match_logits,match_probs = model(input_sen, input_user, input_timestamp,params.t_p)
         match_all_prob.extend(match_probs[:, 1].cpu().detach().numpy())
         for i in range(len(match)):
             match_all_labels.extend(match[i].cpu())
@@ -127,4 +129,3 @@ def test(params, model,sentence_all, user_all, timestamp_all,label_all,match_all
         label_all_labels.extend(label.cpu())
     total_time = time.time() - time_start
     return total_time,roc_auc_score(label_all_labels,label_all_prob),roc_auc_score(match_all_labels,match_all_prob)
-

@@ -13,17 +13,19 @@ from dataloader import loaddata
 warnings.filterwarnings("ignore")
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--wd', type=float, default=1e-3, help='the weight decay of optimizer')
-    parser.add_argument('--lr', type=float, default=0.0001, help='initial learning rate')
+    parser.add_argument('--wd', type=float, default=1e-4, help='the weight decay of optimizer')
+    parser.add_argument('--lr', type=float, default=1e-4, help='initial learning rate')
     parser.add_argument('--gpu_index', type=int, default=0, help='initial learning rate')
     parser.add_argument('--epochs', type=int, default=500, help='initial learning rate')
     parser.add_argument('--max_length', type=int, default=50, help='initial learning rate')
-    parser.add_argument('--batch_size', type=int, default=64, help='initial learning rate')
+    parser.add_argument('--batch_size', type=int, default=128, help='initial learning rate')
     parser.add_argument('--patience', type=int, default=50, help='initial learning rate')
     parser.add_argument('--max_grad_norm', type=float, default=10.0, help='initial learning rate')
     parser.add_argument('--model_type', type=str, default='LEA_MODEL', help='initial learning rate')
-    parser.add_argument("--embedding_dim", default=100)
-    parser.add_argument("--lstm_hidden_size", default=100)
+    parser.add_argument('--first_w', type=float, default=0, help='initial learning rate')
+    parser.add_argument('--t_p', type=int, default=3, help='test part 0-normal 1-without label 2-without timestamp')
+    parser.add_argument("--embedding_dim", default=50)
+    parser.add_argument("--lstm_hidden_size", default=50)
     parser.add_argument("--user_num", default=61)
     parser.add_argument("--dropout", default=0.5)
     parser.add_argument("--vocabs_size", default=2500)
@@ -41,7 +43,8 @@ def main():
     dev_file = 'new_valid.csv'
     test_file = 'new_test.csv'
 
-    f = open("./Log/" + params.model_type + '_' + str(params.batch_size) + '_' +  str(params.wd) + '_' + str(params.lr) + '_' + "log.txt", "w")
+    f = open("./Log/" + params.model_type + '_' + str(params.batch_size) + '_' +  str(params.wd) + '_' +
+             str(params.lr) + '_'+ str(params.first_w) +'_'+ str(params.t_p) +'_' + "log.txt", "w")
     # f = open("./Log/" +  params.model_type + '/' +  params.model_type + '_' + params.prediction + '_' + params.loss_func + '_' + str(params.wd) + '_'
     #          + str(params.lr) + '_' + str(params.dropout) +'_' + 'seed' + str(params.seed) +
     #          '_' + "log.txt", "w")
@@ -93,7 +96,8 @@ def main():
         #                                                                 model_type=params.model_type)
         time_train,epoch_loss, label_auc_train,match_auc_train= train(params,model,train_sentence,train_user,
                                                                         train_timestamp,train_label,train_match,
-                                                                        optimizer,loss_func,params.max_grad_norm)
+                                                                        optimizer,loss_func,params.max_grad_norm,
+                                                                      first_weight=params.first_w)
         print("-> Training time: {:.4f}s, loss = {:.4f},auc_match: {:.4f}\n"
               .format(time_train, epoch_loss,match_auc_train))
         f.write("-> Training time: {:.4f}s, loss = {:.4f},auc_match: {:.4f}\n"
@@ -113,7 +117,8 @@ def main():
     #     # f.write("* Validation for epoch {}:".format(epoch))
     #
         time_vaild,epoch_loss,label_auc_vaild,match_auc_vaild = valid(params,model,val_sentence,val_user,val_timestamp,
-                                                                        val_label,val_match,loss_func)
+                                                                        val_label,val_match,loss_func,
+                                                                      first_weight=params.first_w)
     #
         print("-> Valid. time: {:.4f}s, loss: {:.4f}, auc: {:.4f}\n"
               .format(time_vaild, epoch_loss, match_auc_vaild))
@@ -148,8 +153,6 @@ def main():
 
 if __name__ == '__main__':
     main()
-
-
 
 
 
