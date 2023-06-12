@@ -132,6 +132,7 @@ class LEAGUE(nn.Module):
         self.time_linear = nn.Linear(in_features=args.embedding_dim, out_features=1)
 
     def forward(self, sentence, user, s_time,t_p):
+        # print(s_time)
         # sentence:(batch_size + 200,sen_len)  user:(batch_size + 100,1) s_time:(batch_size,100)
 
         #   User Style-Aware Attention Mechanism for Question Extraction start
@@ -200,8 +201,14 @@ class LEAGUE(nn.Module):
         user_time = self.time_linear(user_embed)  # (batch_size,100,1)
         user_time = nn.functional.softmax(user_time).reshape(user_time.shape[0], -1)  # (batch_Size,100,1)
         s_time = nn.functional.normalize(s_time.float(), p=1, dim=1)
+        # print(s_time)
+        # for i in range(len(s_time)):
+        #     if 0 in s_time[i]:
+        #         for j in range(len(s_time[i])):
+        #             if s_time[i][j] == 0:
+        #                 s_time[i][j] = 1e-9
+        # for k in range(len(s_time)):
         fun_time = torch.exp(torch.div(s_time, user_time)).unsqueeze(-1)  # s_time (batch_size,100,1)
-        # print(fun_time)
 
         # 最后的预测 (batch_size,100,1)
         label_final = torch.argmax(label_probs, dim=-1).unsqueeze(-1)  # (batch_size,1)
@@ -245,6 +252,6 @@ class LEAGUE(nn.Module):
 
         match_logits = match_logits.reshape(match_logits.shape[0] * match_logits.shape[1], -1)  # (batch_size * 100,2)
         match_probs = nn.functional.softmax(match_logits)  # (batch_size * 100,2)
-
         return label_logits, label_probs, match_logits, match_probs
         # return label_logits,label_probs
+
