@@ -2,7 +2,7 @@ import torch
 import argparse
 from torch.utils.data import DataLoader
 import torch.nn as nn
-from models.data import LCQMC_Dataset, load_embeddings
+from models.ESIM.data import LCQMC_Dataset, load_embeddings
 from Baselines_run import train, validate,test
 from dice_loss import DiceLoss
 from models.AP_BILSTM import AP_BILSTM
