@@ -64,7 +64,7 @@ def main():
 
 
     f = open("./Log/" + params.model_type + '_' + str(params.batch_size) + '_' +  str(params.wd) + '_' +
-             str(params.lr) + '_'+ str(params.firstQ) +'_'+ str(params.seed) +'_' + "log.txt", "w")
+             str(params.lr) + '_'+ str(params.with_label) +'_'+ str(params.seed) +'_' + "log.txt", "w")
     #
     f.write(str(params))
 
