@@ -40,7 +40,7 @@ def load_match(d):
 
 # 加载word_index训练数据
 def load_sentences(file, data_size=None):
-    df = pd.read_csv(file, encoding='GBK')
+    df = pd.read_csv(file, encoding='UTF-8')
     sentence = map(get_word_list, df['sentence'].values[0:data_size])
     user = df['user_ID'].values[0:data_size]
     label = df['label'].values[0:data_size]
@@ -78,7 +78,7 @@ def word_index(sentence,word2idx, max_char_len):
 
 # 加载字典
 def load_vocab(vocab_file):
-    vocab = [line.strip() for line in open(vocab_file, encoding='GBK').readlines()]
+    vocab = [line.strip() for line in open(vocab_file, encoding='UTF-8').readlines()]
     # print(vocab)
     word2idx = {word: index for index, word in enumerate(vocab)}
     # print(word2idx)
