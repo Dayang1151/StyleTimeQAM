@@ -1,16 +1,12 @@
-import os
 import torch
 import argparse
 from torch.utils.data import DataLoader
 import torch.nn as nn
-from models.RE2.data import LCQMC_Dataset, load_embeddings
-from run import train, validate,test
+from models.data import LCQMC_Dataset, load_embeddings
+from Baselines_run import train, validate,test
 from dice_loss import DiceLoss
 from models.AP_BILSTM import AP_BILSTM
-# from models.RE2.model import RE2
-from models.RE2.new_model import RE2
 from models.ESIM.model import ESIM
-# from models.ESIM.new_model import ESIM
 from models.cnn_bilstm import CNN_BILSTM
 from models.Bi_LSTM import BI_LSTM
 from models.CNN import CNN
@@ -81,7 +77,7 @@ def main():
 
     if params.dataset_type == 'bigdata22':
         parser.add_argument("--vocabs_size", default=2150)
-        train_file = 'data/baseline_data/igdata22_train.csv'
+        train_file = 'data/baseline_data/bigdata22_train.csv'
         vocab_file = 'data/baseline_data/bigdata22_vocab.txt'
         dev_file = 'data/baseline_data/bigdata22_valid.csv'
         if params.with_label == 1:
@@ -237,3 +233,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
