@@ -24,3 +24,7 @@ Experimental results across three datasets reveal that StyleTimeQAM outperforms 
     
     
  # 3. Running
+ ## 3.1 Datasets Selection
+Select a dataset you want to include.
+There are four kinds of dataset
+![dataset_type](./Figures/dataset_type.png "dataset_type")
