@@ -28,3 +28,9 @@ Experimental results across three datasets reveal that StyleTimeQAM outperforms 
 Select a dataset you want to include.
 There are four kinds of dataset
 ![dataset_type](./Figures/dataset_type.png "dataset_type")
+
+`data/<dataset>/<dataset>_<kind>_<seed>.csv`
+
+The dataset format of the baseline and STQAM is different.
+
+
