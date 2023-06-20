@@ -35,4 +35,15 @@ The dataset format of the baseline and STQAM is different.
 
 The dataset for the baseline has three columns:
 
+The dataset for the STQAM has five columns:
+
+The first column is sentencen.Represents the entered sentence.
+
+The second column is user_ID.Represents which student spoke this sentence.
+
+The third column is label.Represents whether the sentence is a problem, 1 is a problem and 0 is not a problem.
+
+The forth column is match.Represents the matching relationship of this sentence to 100 sentences in the future.
+1 represents the match (this sentence is the question, the future sentence is the answer). 0 means mismatch
+
 
