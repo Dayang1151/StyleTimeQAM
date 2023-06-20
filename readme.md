@@ -33,4 +33,6 @@ There are four kinds of dataset
 
 The dataset format of the baseline and STQAM is different.
 
+The dataset for the baseline has three columns:
+
 
