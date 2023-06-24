@@ -48,16 +48,38 @@ The forth column is match.Represents the matching relationship of this sentence 
 
 
 # 3.2 Running baselines model
-We use bigdata22 as an example of a dataset.and CNN as an example of a type of model.
+We use bigdata22 as an example of a dataset.and CNN as an example of a type of model(with questions noise).
 
-    python Baselines_main.py --dataset_type bigdata22 --model_type CNN
+    python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 0
+
+We use bigdata22 as an example of a dataset.and CNN as an example of a type of model(without questions noise).
+
+    python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 1
 
 # 3.2 Running STQAM model
-We use bigdata22 as an example of a dataset.
+We use bigdata22 as an example of a dataset(with questions noise).
 
-    python STQAM_main.py --dataset_type bigdata22
+    python STQAM_main.py --dataset_type bigdata22 --with_label 0
+
+We use bigdata22 as an example of a dataset(without questions noise).
+
+    python STQAM_main.py --dataset_type bigdata22 --with_label 1
 
 # 4. Results
 ## 4.1 Experiment Results
 
-![experiment_result](./Figures/experiment_resulte.png "experiment_result")
+![experiment_result](./Figures/experiment_result.png "experiment_result")
+
+# 4.2 Basic configurations about baselines
+
+In our setting,the similar_user_num is 2,the future_sequence_len is 2.We use Adagrad optimizer for optimization with learning rate 0.01,and batch size is set as 32.
+
+||bigdata22|bigdata23|synthetic|
+|---|---|---|---|
+|CNN|`wd`: 5e-5, `seqlen`: 200 |`wd`: 5e-5, `seqlen`: 200 | `wd`: 1e-5, `seqlen`: 200| `wd`: 1e-5, `seqlen`: 100|
+|BILSTM|`wd`: 1e-5, `seqlen`: 200|`wd`: 1e-5, `seqlen`: 200 |`wd`: 1e-5, `seqlen`: 200 |`wd`: 1e-5, `seqlen`: 100 |
+|CNN-BILSTM|`wd`: 1e-5, `seqlen`: 200 | `wd`: 1e-5, `seqlen`: 200| `wd`: 1e-5, `seqlen`: 200|`wd`: 1e-5, `seqlen`: 100 |
+|AP-CNN|`wd`: 1e-5, `seqlen`: 200 | `wd`: 1e-5, `seqlen`: 200| `wd`: 1e-5, `seqlen`: 200|`wd`: 5e-5, `seqlen`: 100 |
+|AP-BILSTM|`wd`: 1e-4, `seqlen`: 200 |`wd`: 1e-5, `seqlen`: 200 |`wd`: 5e-5, `seqlen`: 200 | `wd`: 1e-5, `seqlen`: 100|
+|ABCNN|`wd`: 1e-5, `seqlen`: 200 | `wd`: 5e-5, `seqlen`: 200|`wd`: 1e-4, `seqlen`: 200 | `wd`: 1e-5, `seqlen`: 100|
+|ESIM|`wd`: 1e-5, `seqlen`: 200 | `wd`: 5e-5, `seqlen`: 200|`wd`: 1e-4, `seqlen`: 200 | `wd`: 1e-5, `seqlen`: 100|
