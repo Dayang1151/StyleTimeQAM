@@ -100,4 +100,6 @@ First table is without questions noise:
 
 # 4.4 Ablation experiment
 
+![Ablationexperiment](./Figures/Ablationexperiment.png "Ablationexperiment")
+
 The experimental results reveal that the removal of question extraction, time-awareness, and user learning styles significantly affects model performance. Conversely, the existence or removal of the user relation matching module only slightly influences the model's effectiveness. This effect can be attributed to the fact that user learning style information is already embedded in the distributed representation of the conversation within the user style-aware attention module. Therefore, the conversation relation matching process takes into account user learning styles, and user relation matching simply complements this process. 
