@@ -77,19 +77,19 @@ In our setting,the similar_user_num is 2,the future_sequence_len is 2.We use Ada
 ||bigdata22|bigdata23|synthetic|
 |---|---|---|---|
 |AP-CNN |`wd`: 1e-5, `lr`: 1e-3 | `wd`: 5e-6, `lr`: 5e-4| `wd`: 1e-5, `lr`: 1e-4|
-|BILSTM|`wd`: 1e-5, `lr`: 5e-4|`wd`: 5e-6, `lr`: 5e-4 |`wd`: 1e-5, `lr`: 1e-4 |
+|BILSTM|`wd`: 1e-5, `lr`: 5e-4|`wd`: 5e-6, `lr`: 5e-4 |`wd`: 1e-4, `lr`: 5e-3 |
 |AP-BILSTM|`wd`: 1e-5, `lr`: 5e-5 |`wd`: 1e-6, `lr`: 5e-3 |`wd`: 5e-5, `lr`: 1e-4 | 
-|CNN|`wd`: 5e-5, `lr`: 5e-4 |`wd`: 5e-6, `lr`: 1e-3 | `wd`: 1e-5, `lr`: 1e-4| 
-|CNN-BILSTM|`wd`: 1e-5, `lr`: 5e-3 | `wd`: 1e-6, `lr`: 5e-4| `wd`: 1e-5, `lr`: 1e-4|
-|ABCNN|`wd`: 1e-6, `lr`: 1e-4 | `wd`: 5e-6, `lr`: 1e-3|`wd`: 1e-4, `lr`:1e-4 | 
-|ESIM|`wd`: 1e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 5e-4|`wd`: 1e-4, `lr`: 1e-4|
+|CNN|`wd`: 5e-5, `lr`: 5e-4 |`wd`: 5e-6, `lr`: 1e-3 |  `wd`: 1e-4, `lr`:5e-5| 
+|CNN-BILSTM|`wd`: 1e-5, `lr`: 5e-3 | `wd`: 1e-6, `lr`: 5e-4| `wd`: 1e-4, `lr`: 5e-3|
+|ABCNN|`wd`: 1e-6, `lr`: 1e-4 | `wd`: 5e-6, `lr`: 1e-3|`wd`: 5e-5, `lr`:5e-3 | 
+|ESIM|`wd`: 1e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 5e-4|`wd`: 1e-4, `lr`: 5e-4|
 
 ||bigdata22|bigdata23|synthetic|
 |---|---|---|---|
-|AP-CNN |`wd`: 1e-5, `lr`: 1e-3 | `wd`: 5e-5, `lr`: 1e-4| `wd`: 1e-5, `lr`: 1e-4|
-|BILSTM|`wd`: 1e-5, `lr`: 5e-4|`wd`: 5e-5, `lr`: 1e-4 |`wd`: 1e-5, `lr`: 1e-4 |
-|AP-BILSTM|`wd`: 1e-5, `lr`: 5e-5 |`wd`: 5e-5, `lr`: 1e-4 |`wd`: 5e-5, `lr`: 1e-4 | 
-|CNN|`wd`: 5e-5, `lr`: 5e-4 |`wd`: 5e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 1e-4| 
-|CNN-BILSTM|`wd`: 1e-5, `lr`: 5e-3 | `wd`: 5e-5, `lr`: 1e-4| `wd`: 1e-5, `lr`: 1e-4|
-|ABCNN|`wd`: 1e-6, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 1e-4|`wd`: 1e-4, `lr`:1e-4 | 
-|ESIM|`wd`: 1e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 1e-4|`wd`: 1e-4, `lr`: 1e-4|
+|AP-CNN |`wd`: 5e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 1e-4| `wd`: 1e-5, `lr`: 5e-4|
+|BILSTM|`wd`: 5e-5, `lr`: 1e-3|`wd`: 1e-6, `lr`: 1e-3 |`wd`: 1e-5, `lr`: 1e-3 |
+|AP-BILSTM|`wd`: 5e-5, `lr`: 1e-4 |`wd`: 1e-6, `lr`: 1e-3 |`wd`: 1e-4, `lr`: 5e-3 | 
+|CNN|`wd`: 5e-5, `lr`: 5e-3 |`wd`: 5e-6, `lr`: 1e-3 | `wd`: 1e-5, `lr`:1e-3| 
+|CNN-BILSTM|`wd`: 5e-5, `lr`: 1e-3 | `wd`: 5e-5, `lr`: 1e-4| `wd`: 1e-5, `lr`: 5e-4|
+|ABCNN|`wd`: 1e-5, `lr`: 5e-5 | `wd`: 1e-6, `lr`: 5e-4|`wd`: 1e-4, `lr`:5e-4 | 
+|ESIM|`wd`: 1e-5, `lr`: 5e-3| `wd`: 1e-5, `lr`: 5e-4|`wd`: 1e-5, `lr`: 5e-5|
