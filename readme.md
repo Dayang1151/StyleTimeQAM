@@ -47,7 +47,7 @@ The forth column is match.Represents the matching relationship of this sentence 
 1 represents the match (this sentence is the question, the future sentence is the answer). 0 means mismatch
 
 
-# 3.2 Running baselines model
+## 3.2 Running baselines model
 We use bigdata22 as an example of a dataset.and CNN as an example of a type of model(with questions noise).
 
     python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 0
@@ -56,7 +56,7 @@ We use bigdata22 as an example of a dataset.and CNN as an example of a type of m
 
     python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 1
 
-# 3.2 Running STQAM model
+## 3.3 Running STQAM model
 We use bigdata22 as an example of a dataset(with questions noise).
 
     python STQAM_main.py --dataset_type bigdata22 --with_label 0
@@ -70,7 +70,7 @@ We use bigdata22 as an example of a dataset(without questions noise).
 
 ![experiment_result](./Figures/experiment_result.png "experiment_result")
 
-# 4.2 Basic configurations about baselines
+## 4.2 Basic configurations about baselines
 
 In our setting,the batch_size is 128,the max_length is 50.the dropout is 0.5.
 
@@ -98,7 +98,7 @@ First table is without questions noise:
 |ABCNN|`wd`: 1e-5, `lr`: 5e-5 | `wd`: 1e-6, `lr`: 5e-4|`wd`: 1e-4, `lr`:5e-4 | 
 |ESIM|`wd`: 1e-5, `lr`: 5e-3| `wd`: 1e-5, `lr`: 5e-4|`wd`: 1e-5, `lr`: 5e-5|
 
-# 4.4 Ablation experiment
+## 4.3 Ablation experiment
 
 ![Ablationexperiment](./Figures/Ablationexperiment.png "Ablationexperiment")
 
