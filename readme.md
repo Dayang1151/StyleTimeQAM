@@ -72,7 +72,9 @@ We use bigdata22 as an example of a dataset(without questions noise).
 
 # 4.2 Basic configurations about baselines
 
-In our setting,the similar_user_num is 2,the future_sequence_len is 2.We use Adagrad optimizer for optimization with learning rate 0.01,and batch size is set as 32.
+In our setting,the batch_size is 128,the max_length is 50.the dropout is 0.5.
+
+First table is with questions noise:
 
 ||bigdata22|bigdata23|synthetic|
 |---|---|---|---|
@@ -83,6 +85,8 @@ In our setting,the similar_user_num is 2,the future_sequence_len is 2.We use Ada
 |CNN-BILSTM|`wd`: 1e-5, `lr`: 5e-3 | `wd`: 1e-6, `lr`: 5e-4| `wd`: 1e-4, `lr`: 5e-3|
 |ABCNN|`wd`: 1e-6, `lr`: 1e-4 | `wd`: 5e-6, `lr`: 1e-3|`wd`: 5e-5, `lr`:5e-3 | 
 |ESIM|`wd`: 1e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 5e-4|`wd`: 1e-4, `lr`: 5e-4|
+
+First table is without questions noise:
 
 ||bigdata22|bigdata23|synthetic|
 |---|---|---|---|
