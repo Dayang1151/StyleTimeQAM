@@ -47,3 +47,12 @@ The forth column is match.Represents the matching relationship of this sentence 
 1 represents the match (this sentence is the question, the future sentence is the answer). 0 means mismatch
 
 
+# 3.2 Running baselines model
+We use bigdata22 as an example of a dataset.and CNN as an example of a type of model.
+
+    python Baselines_main.py --dataset_type bigdata22 --model_type CNN
+
+# 3.2 Running STQAM model
+We use bigdata22 as an example of a dataset.
+
+    python STQAM_main.py --dataset_type bigdata22
