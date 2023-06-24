@@ -56,3 +56,7 @@ We use bigdata22 as an example of a dataset.and CNN as an example of a type of m
 We use bigdata22 as an example of a dataset.
 
     python STQAM_main.py --dataset_type bigdata22
+
+# 4. Results
+## 4.1 Experiment Results
+
