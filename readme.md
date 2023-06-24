@@ -60,3 +60,4 @@ We use bigdata22 as an example of a dataset.
 # 4. Results
 ## 4.1 Experiment Results
 
+![experiment_result](./Figures/experiment_resulte.png "experiment_result")
