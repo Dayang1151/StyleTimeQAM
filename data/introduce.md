@@ -16,6 +16,8 @@ Label (integer type): This category denotes the nature of a user's chat record. 
 
 Match (string type): This signifies the matching correlation between the record and the subsequent 100 records. If the current sentence is a question and there is an appropriate answer within the following 100 sentences, it is denoted as 1; otherwise, it is labeled 0.
 
+![dataset_type](./Figures/dataset_type.png "dataset_type")
+
 # 2.Synthetic Dataset
 
  The Synthetic Dataset was constructed based on the BigData2022 dataset, with each conversation having characteristics identical to those in the BigData2022 and BigData2023 datasets. This dataset comprises 61 virtual students. During the generation of the Synthetic dataset, we ensured that the characteristics of the dataset, such as student learning styles and the probability distribution of the time interval between questions and answers, mirrored those of the BigData2022 dataset. Additionally, the text information for the Synthetic dataset was sourced from the Microsoft Research WikiQA Corpus https://www.microsoft.com/en-us/download/details.aspx?id=52419.
