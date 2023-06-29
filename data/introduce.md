@@ -20,4 +20,18 @@ Match (string type): This signifies the matching correlation between the record 
 
 # 2.Synthetic Dataset
 
- The Synthetic Dataset was constructed based on the BigData2022 dataset, with each conversation having characteristics identical to those in the BigData2022 and BigData2023 datasets. This dataset comprises 61 virtual students. During the generation of the Synthetic dataset, we ensured that the characteristics of the dataset, such as student learning styles and the probability distribution of the time interval between questions and answers, mirrored those of the BigData2022 dataset. Additionally, the text information for the Synthetic dataset was sourced from the Microsoft Research WikiQA Corpus https://www.microsoft.com/en-us/download/details.aspx?id=52419.
+The objective of generating the synthetic dataset is to assess the performance of StyleTimeQAM on larger scale datasets. However, existing QA datasets (such as Wiki QA dataset)  only contains questions and answers, without any conversation timing or user type information. Therefore, we analyze the conversation timing and user type distributions in our own dataset and use similar distributions to generate these features in the synthetic dataset. For textual information, we directly incorporate the questions and answers from the Wiki QA dataset, portraying them as user group statements in synthetic dataset. 
+
+In the generation process of the Synthetic dataset, we adhere to the following principles:
+
+Principle 1:The probability distribution of conversation over different dates in the Synthetic dataset matches that in the BigData22 dataset.
+
+Principle 2:The probability distribution of conversation within one day in the Synthetic dataset matches that in the BigData22 dataset.
+
+Principle 3:The probability distribution of time interval between questions and corresponding answers in the Synthetic dataset matches that in the BigData22 dataset. 
+
+Principle 4:The probability of users posing a question in the Synthetic dataset matches that in the BigData22 dataset.
+
+Principle 5:The probability of users providing an answer in the Synthetic dataset matches that in the BigData22 dataset.
+
+Principle 6:The probability of users providing irrelevant information in the Synthetic dataset matches that in the BigData22 dataset.
