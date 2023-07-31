@@ -58,27 +58,19 @@ class Attention(nn.Module):
 
 
 def masked_softmax(X, valid_lens):
-    """通过在最后一个轴上掩蔽元素来执行softmax操作"""
-    # X:3D张量，valid_lens:1D或2D张量
-    if valid_lens is None:  # 不设置时，取全部值的softmax
+    if valid_lens is None:
         return nn.functional.softmax(X, dim=-1)
 
 
 class DotProductAttention(nn.Module):
-    """缩放点积注意力"""
+
 
     def __init__(self, dropout, **kwargs):
         super(DotProductAttention, self).__init__(**kwargs)
         self.dropout = nn.Dropout(dropout)
 
-    # queries的形状：(batch_size，查询的个数，d)
-    # keys的形状：(batch_size，“键－值”对的个数，d)
-    # values的形状：(batch_size，“键－值”对的个数，值的维度)
-    # valid_lens的形状:(batch_size，)或者(batch_size，查询的个数)
     def forward(self, queries, keys, values, valid_lens=None):
-        # queries和keys的最后一维都为d
         d = queries.shape[-1]
-        # 设置transpose_b=True为了交换keys的最后两个维度 (b, q, d) * (b, d, k) = (b, q, k)
         scores = torch.bmm(queries, keys.transpose(1, 2)) / math.sqrt(d)
         self.attention_weights = masked_softmax(scores, valid_lens)
         return torch.bmm(self.dropout(self.attention_weights), values)
@@ -137,26 +129,26 @@ class STQAM(nn.Module):
 
         #   User Style-Aware Attention Mechanism for Question Extraction start
 
-        sen_emd = self.embedding_sen(sentence)  # conversation embedding层  (batch_size + 200,sen_len,embedding_dim)
+        sen_emd = self.embedding_sen(sentence)  # conversation embedding  (batch_size + 200,sen_len,embedding_dim)
 
         sen_lstmed, (final_hidden_state, final_cell_state) = self.LSTM(
             sen_emd)  # conversation BILSTM层  (batch_size + 200,sen_len,embedding_dim(hidden) * 2)
 
-        sen_pooled = self.pooling(sen_lstmed)  # conversation pooling层 (batch_size + 200,seq_len,embedding_dim)
+        sen_pooled = self.pooling(sen_lstmed)  # conversation pooling (batch_size + 200,seq_len,embedding_dim)
         sen_pooled = sen_pooled[100:200 + self.batch_size]  # (batch_size + 100,seq_len,embedding_dim)
 
         user = user.unsqueeze(1)  # (batch_size,1)
-        user_embed = self.embedding_user(user)  # user embedding层 (batch_size + 100,1,embedding_dim)
+        user_embed = self.embedding_user(user)  # user embedding (batch_size + 100,1,embedding_dim)
 
-        att_output = self.attention(user_embed, sen_pooled, sen_pooled)  # attention层 (batch_size + 100,1,embedding_dim)
+        att_output = self.attention(user_embed, sen_pooled, sen_pooled)  # attention (batch_size + 100,1,embedding_dim)
 
-        conn = torch.cat([user_embed, att_output], dim=-1)  # 连接 (batch_size + 100,1,embedding_dim * 2)
+        conn = torch.cat([user_embed, att_output], dim=-1)  #  (batch_size + 100,1,embedding_dim * 2)
 
-        s_att_output, _ = self.self_attention(conn, conn, conn)  # 连接后进入自注意力层 (batch_size + 100,1,embedding_dim * 2)
+        s_att_output, _ = self.self_attention(conn, conn, conn)  #  (batch_size + 100,1,embedding_dim * 2)
 
         s_output = s_att_output.reshape(s_att_output.shape[0], -1)  # (batch_size + 100,embedding_dim * 2)
 
-        label_logits = self.linear(s_output)[:self.batch_size]  # 线性层 (batch_size,2)
+        label_logits = self.linear(s_output)[:self.batch_size]  #  (batch_size,2)
 
         label_probs = nn.functional.softmax(label_logits, dim=-1)  # softmax(batch_size ,2)
 
@@ -195,7 +187,7 @@ class STQAM(nn.Module):
         sen_output = self.linear_match_sen(sen_final)  # sen_output (batch_Size,100,embedding_size)
         sen_output = nn.functional.relu(sen_output)  # user_embed (batch_Size+200,100,embedding_size)
 
-        # 时间核函数  s_time (batch_size,100)
+        #   s_time (batch_size,100)
         # print(user_embed)
         user_embed = future_user(user_embed, self.batch_size, 100)
         user_time = self.time_linear(user_embed)  # (batch_size,100,1)
@@ -210,7 +202,7 @@ class STQAM(nn.Module):
         # for k in range(len(s_time)):
         fun_time = torch.exp(torch.div(s_time, user_time)).unsqueeze(-1)  # s_time (batch_size,100,1)
 
-        # 最后的预测 (batch_size,100,1)
+        # (batch_size,100,1)
         label_final = torch.argmax(label_probs, dim=-1).unsqueeze(-1)  # (batch_size,1)
         label_final = label_final.expand(label_final.shape[0], 100).unsqueeze(-1)  # (batch_size,100,1)
 
