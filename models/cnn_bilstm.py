@@ -18,9 +18,9 @@ class CNN_BILSTM(nn.Module):
             nn.MaxPool1d(kernel_size=3, stride=1, padding=1)
         )
         self.LSTM = nn.LSTM(input_size=50, hidden_size=50, bidirectional=True, batch_first=True)
-        self.l3 = nn.Linear(args.max_length * 50 * 2,args.hidden_size)  # 特征输入
+        self.l3 = nn.Linear(args.max_length * 50 * 2,args.hidden_size)  
         # self.l3 = nn.Linear(model_param['context_num'] * model_param['seq_length'] * model_param['hidden_size'] * 2,
-        #                     model_param['n_class'])  # 特征输入
+        #                     model_param['n_class'])  
         # self.l4 = nn.Dropout(args.dropout)
         # self.l5 = nn.BatchNorm1d(args.num_classes)
         self.prediction = prediction[args.prediction](args)
