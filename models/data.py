@@ -23,7 +23,7 @@ class LCQMC_Dataset(Dataset):
     def __getitem__(self, idx):
         return self.p_list[idx], self.p_lengths[idx], self.h_list[idx], self.h_lengths[idx], self.label[idx]
     
-# 加载word_index训练数据
+
 def load_sentences(file, data_size=None):
     df = pd.read_csv(file,encoding='GBK')
     p = map(get_word_list, df['text_a'].values[0:data_size])
@@ -45,7 +45,6 @@ def word_index(p_sentences, h_sentences, word2idx, max_char_len):
     h_list = pad_sequences(h_list, maxlen = max_char_len)
     return p_list, p_length, h_list, h_length
 
-# 加载字典
 def load_vocab(vocab_file):
     vocab = [line.strip() for line in open(vocab_file, encoding='utf-8').readlines()]
     word2idx = {word: index for index, word in enumerate(vocab)}
@@ -53,9 +52,9 @@ def load_vocab(vocab_file):
     return word2idx, idx2word, vocab
 
 
-''' 把句子按字分开，中文按字分，英文数字按空格, 大写转小写，繁体转简体'''
+
 def get_word_list(query):
-    regEx = re.compile('[\\W]+')#我们可以使用正则表达式来切分句子，切分的规则是除单词，数字外的任意字符串
+    regEx = re.compile('[\\W]+')
     sentences = regEx.split(query.lower())
     str_list = []
     for sentence in sentences:
@@ -65,34 +64,20 @@ def get_word_list(query):
 
 
 def load_embeddings(embdding_path):
-    # glove_file = datapath("C:/Users/16603/Desktop/QA问题/TextMatch-master/data/glove.840B.300d.txt")  # 下载好的Glove模型
-    # tmp_file = get_tmpfile("C:/Users/16603/Desktop/QA问题/TextMatch-master/data/w2v.txt")  # 希望转换到的目标文件
-    # _ = glove2word2vec(glove_file, tmp_file)  # 开始转换
-    model = KeyedVectors.load_word2vec_format(embdding_path)  # 读取新的模型文件
+    # glove_file = datapath("C:/Users/16603/Desktop/QA问题/TextMatch-master/data/glove.840B.300d.txt") 
+    # tmp_file = get_tmpfile("C:/Users/16603/Desktop/QA问题/TextMatch-master/data/w2v.txt") 
+    # _ = glove2word2vec(glove_file, tmp_file)  
+    model = KeyedVectors.load_word2vec_format(embdding_path) 
 
     # model = gensim.models.KeyedVectors.load_word2vec_format(embdding_path, binary=False)
     embedding_matrix = np.zeros((len(model.index_to_key) + 1, model.vector_size))
-    #填充向量矩阵
     for idx, word in enumerate(model.index_to_key):
-        embedding_matrix[idx + 1] = model[word]#词向量矩阵
+        embedding_matrix[idx + 1] = model[word]
     return embedding_matrix
 
 def pad_sequences(sequences, maxlen=None, dtype='int32', padding='post',
                   truncating='post', value=0.):
-    """ pad_sequences
-    把序列长度转变为一样长的，如果设置了maxlen则长度统一为maxlen，如果没有设置则默认取
-    最大的长度。填充和截取包括两种方法，post与pre，post指从尾部开始处理，pre指从头部
-    开始处理，默认都是从尾部开始。
-    Arguments:
-        sequences: 序列
-        maxlen: int 最大长度
-        dtype: 转变后的数据类型
-        padding: 填充方法'pre' or 'post'
-        truncating: 截取方法'pre' or 'post'
-        value: float 填充的值
-    Returns:
-        x: numpy array 填充后的序列维度为 (number_of_sequences, maxlen)
-    """
+
     lengths = [len(s) for s in sequences]
     nb_samples = len(sequences)
     if maxlen is None:
