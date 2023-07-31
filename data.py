@@ -38,7 +38,6 @@ def load_match(d):
         arr_2.append(arr_1)
     return np.array(arr_2)
 
-# 加载word_index训练数据
 def load_sentences(file, data_size=None):
     df = pd.read_csv(file, encoding='UTF-8')
     sentence = map(get_word_list, df['sentence'].values[0:data_size])
@@ -76,7 +75,6 @@ def word_index(sentence,word2idx, max_char_len):
 #     h_list = pad_sequences(h_list, maxlen=max_char_len)
 #     return p_list, p_length, h_list, h_length
 
-# 加载字典
 def load_vocab(vocab_file):
     vocab = [line.strip() for line in open(vocab_file, encoding='UTF-8').readlines()]
     # print(vocab)
@@ -88,7 +86,7 @@ def load_vocab(vocab_file):
 
 
 def get_word_list(query):
-    regEx = re.compile('[\\W]+')  # 我们可以使用正则表达式来切分句子，切分的规则是除单词，数字外的任意字符串
+    regEx = re.compile('[\\W]+') 
     sentences = regEx.split(query.lower())
     str_list = []
     for sentence in sentences:
@@ -98,20 +96,6 @@ def get_word_list(query):
 
 def pad_sequences(sequences, maxlen=None, dtype='int32', padding='post',
                   truncating='post', value=0.):
-    """ pad_sequences
-    把序列长度转变为一样长的，如果设置了maxlen则长度统一为maxlen，如果没有设置则默认取
-    最大的长度。填充和截取包括两种方法，post与pre，post指从尾部开始处理，pre指从头部
-    开始处理，默认都是从尾部开始。
-    Arguments:
-        sequences: 序列
-        maxlen: int 最大长度
-        dtype: 转变后的数据类型
-        padding: 填充方法'pre' or 'post'
-        truncating: 截取方法'pre' or 'post'
-        value: float 填充的值
-    Returns:
-        x: numpy array 填充后的序列维度为 (number_of_sequences, maxlen)
-    """
     lengths = [len(s) for s in sequences]
     nb_samples = len(sequences)
     if maxlen is None:
