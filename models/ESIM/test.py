@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 12 22:46:32 2020
-
-@author: zhaog
-"""
 import torch
 from sys import platform
 from torch.utils.data import DataLoader
