@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 12 02:08:03 2020
-
-@author: zhaog
-"""
 import torch
 import torch.nn as nn
 from models.ESIM.utils import get_mask, replace_masked
