@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 12 15:30:14 2020
-
-@author: zhaog
-"""
 import re
 import gensim
 import numpy as np
