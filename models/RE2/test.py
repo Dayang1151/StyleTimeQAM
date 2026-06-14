@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Sat Mar 14 13:30:07 2020
-
-@author: zhaog
-"""
 import torch
 import argparse
 from sys import platform
