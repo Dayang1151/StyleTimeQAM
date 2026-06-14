@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 12 02:09:08 2020
-
-@author: zhaog
-"""
 from sys import platform
 import torch.nn as nn
 from models.ESIM.utils import sort_by_seq_lens, masked_softmax, weighted_sum
