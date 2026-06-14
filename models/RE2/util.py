@@ -1,9 +1,4 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Thu Mar 12 02:08:46 2020
-
-@author: zhaog
-"""
 import torch
 import torch.nn as nn
 import time
