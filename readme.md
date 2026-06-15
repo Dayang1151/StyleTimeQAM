@@ -1,4 +1,4 @@
-# StyleTimeQAM: Style- and Time-Aware Question-Answer Matching in Online Teaching Groups
+# StyleTimeQAM: Modeling Student Style and Temporal Dynamics for Question-Answer Matching in Online Teaching Groups
 This repository is the official implementation of StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM).
 
 # 1. Abstract 
