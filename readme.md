@@ -45,7 +45,6 @@ The third column is label, which indicates whether the sentence is a question: 1
 The fourth column is match, which represents the matching relationship between the current sentence and the following 100 candidate sentences.
 
 The fifth column is timestamp, which records when the sentence was written.
-
 1 represents a match (the current sentence is the question and the future sentence is the answer), while 0 represents a mismatch.
 
 
