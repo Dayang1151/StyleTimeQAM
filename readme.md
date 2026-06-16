@@ -34,7 +34,7 @@ There are four kinds of datasets.
 
 The dataset format of the baseline and StyleTimeQAM is different.
 
-The dataset for the baseline has three columns, while the dataset for StyleTimeQAM has four columns:
+The dataset for the baseline has three columns, while the dataset for StyleTimeQAM has five columns:
 
 The first column is sentence, which represents the input sentence.
 
@@ -42,8 +42,10 @@ The second column is user_ID, which represents the student who wrote the sentenc
 
 The third column is label, which indicates whether the sentence is a question: 1 denotes a question and 0 denotes a non-question.
 
-The fourth column is match, which represents the matching relationship between the current sentence and the following 100 sentences.
-1 represents the match (this sentence is the question, the future sentence is the answer). 0 means mismatch.
+The fourth column is match, which represents the matching relationship between the current sentence and the following 100 candidate sentences.
+
+The fifth column is timestamp, which records when the sentence was written.
+1 represents a match (the current sentence is the question and the future sentence is the answer), while 0 represents a mismatch.
 
 
 ## 3.2 Running baselines model
