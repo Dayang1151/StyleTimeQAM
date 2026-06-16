@@ -69,7 +69,7 @@ We use bigdata22 as an example of a dataset(without questions noise).
 # 4. Results
 ## 4.1 Experiment Results
 
-![experiment_result](./Figures/experiment_result.png "experiment_result")
+![experiment_result](./Figures/experiment_result1.png "experiment_result1")
 
 ## 4.2 Basic configurations about baselines
 
