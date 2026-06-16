@@ -30,7 +30,7 @@ Select a dataset you want to include.
 There are four kinds of datasets.
 ![dataset_type](./Figures/dataset_type.png "dataset_type")
 
-`data/<dataset>/<dataset>_<kind>_<seed>.csv`
+For StyleTimeQAM, the processed datasets are stored under `data/LEA_MODEL/`, such as `bigdata22_train.csv`, `bigdata22_valid.csv`, and `bigdata22_test.csv`.
 
 The dataset format of the baseline and StyleTimeQAM is different.
 
@@ -75,7 +75,7 @@ We use bigdata22 as an example of a dataset(without questions noise).
 
 In our setting, the batch_size is 128, the max_length is 50, and the dropout is 0.5.
 
-First table is with questions noise:
+The first table shows the baseline configurations under the TGQAM setting:
 
 ||bigdata22|bigdata23|synthetic|
 |---|---|---|---|
@@ -87,7 +87,7 @@ First table is with questions noise:
 |ABCNN|`wd`: 1e-6, `lr`: 1e-4 | `wd`: 5e-6, `lr`: 1e-3|`wd`: 5e-5, `lr`:5e-3 | 
 |ESIM|`wd`: 1e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 5e-4|`wd`: 1e-4, `lr`: 5e-4|
 
-The second table is without questions noise:
+The second table shows the baseline configurations under the traditional QA setting:
 
 ||bigdata22|bigdata23|synthetic|
 |---|---|---|---|
