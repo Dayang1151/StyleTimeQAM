@@ -1,5 +1,5 @@
 # StyleTimeQAM: Modeling Learning Style and Temporal Dynamics for Question-Answer Matching in Online Teaching Groups
-This repository is the official implementation of StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM).
+This repository provides the implementation of StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM).
 
 # 1. Abstract 
 We introduce Teaching Group Question-Answer Matching (TGQAM), a new educational task aimed at aligning questions with correct answers in educational groups.
@@ -7,8 +7,8 @@ This task is essential for assessing teaching quality and understanding student 
 However, TGQAM faces three challenges: (i) the scarcity of relevant datasets, (ii) the prevalence of unrelated dialogue in teaching groups, and (iii) the wide range of potential answers for each question, making accurate matching difficult.
 To address the first challenge, we gather two datasets from an anonymized university course, each of which spans one year, and develop a synthetic dataset that mimics teaching group dynamics, providing a foundational resource for TGQAM research.
 To tackle the second and third challenges, we propose StyleTimeQAM, a question-answer matching model that incorporates both student style and temporal information.
-It comprises two primary modules: the Learning-Style Aware Attention Module and the Time-Aware Attention Module.
-The Learning-Style Aware Attention Module filters out irrelevant dialogue by modeling student styles, while the Time-Aware Attention Module leverages a time decay kernel function to reduce irrelevant candidate answers and improve question-answer matching accuracy.
+It comprises two primary modules: the Learning-Style Aware-Attention Module and the Time-Aware Attention Module.
+The Learning-Style-Aware Attention Module filters out irrelevant dialogue by modeling student styles, while the Time-Aware Attention Module leverages a time decay kernel function to reduce irrelevant candidate answers and improve question-answer matching accuracy.
 Experimental results demonstrate that StyleTimeQAM achieves strong performance on real teaching-group datasets and confirm the effectiveness of incorporating student style and temporal information into QA matching.
 
 
@@ -27,24 +27,22 @@ Experimental results demonstrate that StyleTimeQAM achieves strong performance o
  # 3. Running
  ## 3.1 Datasets Selection
 Select a dataset you want to include.
-There are four kinds of dataset
+There are four kinds of datasets.
 ![dataset_type](./Figures/dataset_type.png "dataset_type")
 
 `data/<dataset>/<dataset>_<kind>_<seed>.csv`
 
 The dataset format of the baseline and StyleTimeQAM is different.
 
-The dataset for the baseline has three columns:
+The dataset for the baseline has three columns, while the dataset for StyleTimeQAM has four columns:
 
-The dataset for the StyleTimeQAM has four columns:
+The first column is sentence, which represents the input sentence.
 
-The first column is sentence. Represents the entered sentence.
+The second column is user_ID, which represents the student who wrote the sentence.
 
-The second column is user_ID. Represents which student spoke this sentence.
+The third column is label, which indicates whether the sentence is a question: 1 denotes a question and 0 denotes a non-question.
 
-The third column is label. Represents whether the sentence is a problem, 1 is a problem and 0 is not a problem.
-
-The fourth column is match.Represents the matching relationship of this sentence to 100 sentences in the future.
+The fourth column is match, which represents the matching relationship between the current sentence and the following 100 sentences.
 1 represents the match (this sentence is the question, the future sentence is the answer). 0 means mismatch.
 
 
@@ -57,7 +55,7 @@ We use bigdata22 as an example of a dataset, and CNN as an example of a type of 
 
     python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 1
 
-## 3.3 Running STQAM model
+## 3.3 Running StyleTimeQAM model
 We use bigdata22 as an example of a dataset(with questions noise).
 
     python STQAM_main.py --dataset_type bigdata22 --with_label 0
@@ -73,7 +71,7 @@ We use bigdata22 as an example of a dataset(without questions noise).
 
 ## 4.2 Basic configurations about baselines
 
-In our setting,the batch_size is 128,the max_length is 50.the dropout is 0.5.
+In our setting, the batch_size is 128, the max_length is 50, and the dropout is 0.5.
 
 First table is with questions noise:
 
