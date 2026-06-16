@@ -105,6 +105,6 @@ The second table shows the baseline configurations under the traditional QA sett
 
 ![Ablation study under the TGQAM setting](./Figures/Ablation_TGQAM.png "Ablation study under the TGQAM setting")
 
-![Ablation study under the traditional QA setting](./Figures/Ablation_Traditional_QA.png "Ablation study under the traditional QA setting")
+![Ablation study under the traditional QA setting](./Figures/Ablation_Traditional.png "Ablation study under the traditional QA setting")
 
 The experimental results reveal that the removal of question extraction, time-awareness, and user learning styles significantly affects model performance. Conversely, the existence or removal of the user relation matching module only slightly influences the model's effectiveness. This effect can be attributed to the fact that user learning style information is already embedded in the distributed representation of the conversation within the style-aware attention module. Therefore, the conversation relation matching process takes into account user learning styles, and user relation matching simply complements this process. 
