@@ -28,7 +28,7 @@ Experimental results demonstrate that StyleTimeQAM achieves strong performance o
  ## 3.1 Datasets Selection
 Select a dataset you want to include.
 There are three datasets: BigData22, BigData23, and Synthetic.
-![dataset_type](./Figures/dataset_type.png "dataset_type")
+![dataset_type](./Figures/dataset_statistics.png "dataset_statistics")
 
 For StyleTimeQAM, the processed datasets are stored under `data/LEA_MODEL/`, such as `bigdata22_train.csv`, `bigdata22_valid.csv`, and `bigdata22_test.csv`.
 
