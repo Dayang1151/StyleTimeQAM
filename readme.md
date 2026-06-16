@@ -101,8 +101,6 @@ The second table shows the baseline configurations under the traditional QA sett
 
 ## 4.3 Ablation experiment
 
-![Ablationexperiment](./Figures/Ablationexperiment.png "Ablationexperiment")
-
 ![Ablation study under the TGQAM setting](./Figures/Ablation_TGQAM.png "Ablation study under the TGQAM setting")
 
 ![Ablation study under the traditional QA setting](./Figures/Ablation_Traditional.png "Ablation study under the traditional QA setting")
