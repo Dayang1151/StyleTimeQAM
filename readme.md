@@ -15,7 +15,10 @@ We propose StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM), a Q
     pip install scikit-learn
     pip install matplotlib
     pip install seaborn
-    
+    pip install gensim
+    pip install tqdm
+    pip install tensorboardX
+    pip install json5
     
  # 3. Running
  ## 3.1 Datasets Selection
