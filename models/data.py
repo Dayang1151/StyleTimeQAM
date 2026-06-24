@@ -64,8 +64,8 @@ def get_word_list(query):
 
 
 def load_embeddings(embdding_path):
-    # glove_file = datapath("C:/Users/16603/Desktop/QA问题/TextMatch-master/data/glove.840B.300d.txt") 
-    # tmp_file = get_tmpfile("C:/Users/16603/Desktop/QA问题/TextMatch-master/data/w2v.txt") 
+    # glove_file = datapath("data/glove.840B.300d.txt") 
+    # tmp_file = get_tmpfile("data/w2v.txt") 
     # _ = glove2word2vec(glove_file, tmp_file)  
     model = KeyedVectors.load_word2vec_format(embdding_path) 
 
