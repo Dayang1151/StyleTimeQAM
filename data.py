@@ -9,6 +9,7 @@ from gensim.models import KeyedVectors
 from gensim.scripts.glove2word2vec import glove2word2vec
 
 
+
 class LEA_Dataset(Dataset):
     def __init__(self, LEA_file, vocab_file, max_char_len):
         # p, h, self.label = load_sentences(LEA_file)
