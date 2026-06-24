@@ -1,4 +1,4 @@
-<img width="1119" height="474" alt="image" src="https://github.com/user-attachments/assets/a8fff027-fe06-4ed2-8881-55a56fa4486b" /># StyleTimeQAM: Modeling Learning Style and Temporal Dynamics for Question-Answer Matching in Online Teaching Groups
+# StyleTimeQAM: Modeling Learning Style and Temporal Dynamics for Question-Answer Matching in Online Teaching Groups
 This repository provides the implementation of StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM).
 
 # 1. Abstract 
