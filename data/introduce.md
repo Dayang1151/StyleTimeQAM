@@ -16,7 +16,7 @@ Label (integer type): This category denotes the nature of a user's chat record. 
 
 Match (string type): This signifies the matching correlation between the record and the subsequent 100 records. If the current sentence is a question and there is an appropriate answer within the following 100 sentences, it is denoted as 1; otherwise, it is labeled 0.
 
-![The_example_of _BigData_datasets](./Figures/bigdata_22_23.png "The_example_of _BigData_datasets")
+![The_example_of _BigData_datasets](../Figures/bigdata_22_23.png "The_example_of _BigData_datasets")
 
 # 2.Synthetic Dataset
 
