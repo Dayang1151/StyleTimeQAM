@@ -20,7 +20,7 @@ We propose StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM), a Q
     pip install tensorboardX
     pip install json5
     
- # 3. Running
+# 3. Running
  ## 3.1 Datasets Selection
 Select a dataset you want to include.
 There are three datasets: BigData22, BigData23, and Synthetic.
