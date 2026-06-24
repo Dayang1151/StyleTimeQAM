@@ -81,8 +81,6 @@ def get_word_list(query):
 #     return embedding_matrix
 
 def load_embeddings(embdding_path):
-    # glove_file = datapath("C:/Users/16603/Desktop/QA问题/TextMatch-master/data/glove.840B.300d.txt")  # 下载好的Glove模型
-    # tmp_file = get_tmpfile("C:/Users/16603/Desktop/QA问题/TextMatch-master/data/w2v.txt")  # 希望转换到的目标文件
     # _ = glove2word2vec(glove_file, tmp_file)  # 开始转换
     model = KeyedVectors.load_word2vec_format(embdding_path)  # 读取新的模型文件
 
