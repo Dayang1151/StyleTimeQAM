@@ -1,4 +1,5 @@
 import warnings
+import os
 import torch
 import argparse
 import torch.nn as nn
@@ -62,7 +63,8 @@ def main():
 
     params = parser.parse_args()
 
-
+    os.makedirs("./Log", exist_ok=True)
+    
     f = open("./Log/" + params.model_type + '_' + str(params.batch_size) + '_' +  str(params.wd) + '_' +
              str(params.lr) + '_'+ str(params.with_label) +'_'+ str(params.seed) +'_' + "log.txt", "w")
     #
