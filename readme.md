@@ -1,4 +1,4 @@
-# StyleTimeQAM: Modeling Learning Style and Temporal Dynamics for Question-Answer Matching in Online Teaching Groups
+<img width="1119" height="474" alt="image" src="https://github.com/user-attachments/assets/a8fff027-fe06-4ed2-8881-55a56fa4486b" /># StyleTimeQAM: Modeling Learning Style and Temporal Dynamics for Question-Answer Matching in Online Teaching Groups
 This repository provides the implementation of StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM).
 
 # 1. Abstract 
@@ -24,6 +24,8 @@ There are three datasets: BigData22, BigData23, and Synthetic.
 ![dataset_type](./Figures/dataset_statistics.png "dataset_statistics")
 
 For StyleTimeQAM, the processed datasets are stored under `data/LEA_MODEL/`, such as `bigdata22_train.csv`, `bigdata22_valid.csv`, and `bigdata22_test.csv`.
+
+Before running the baseline models, please extract `bigdata22_dataset.7z`, `bigdata23_dataset.7z`, and `synthetic_dataset.7z` from `data/Baselines/`, and put the extracted files into `data/baseline_data/`, because the baseline scripts read data from `data/baseline_data/`.
 
 The dataset format of the baseline and StyleTimeQAM is different.
 
