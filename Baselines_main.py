@@ -1,3 +1,4 @@
+import os
 import torch
 import argparse
 from torch.utils.data import DataLoader
@@ -112,6 +113,7 @@ def main():
     torch.manual_seed(params.seed)
     torch.cuda.manual_seed(params.seed)
 
+    os.makedirs("./Log/" + params.model_type, exist_ok=True)
 
     f = open("./Log/" +  params.model_type + '/' +  params.model_type + '_' + params.prediction + '_' + params.loss_func + '_' + str(params.wd) + '_'
              + str(params.lr) + '_' + str(params.dropout) +'_' + 'seed' + str(params.seed) +
