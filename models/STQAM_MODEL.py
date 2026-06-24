@@ -127,7 +127,7 @@ class STQAM(nn.Module):
         # print(s_time)
         # sentence:(batch_size + 200,sen_len)  user:(batch_size + 100,1) s_time:(batch_size,100)
 
-        #   User Style-Aware Attention Mechanism for Question Extraction start
+        #   Learning-Style-Aware Attention Mechanism for Question Extraction start
 
         sen_emd = self.embedding_sen(sentence)  # conversation embedding  (batch_size + 200,sen_len,embedding_dim)
 
@@ -152,10 +152,10 @@ class STQAM(nn.Module):
 
         label_probs = nn.functional.softmax(label_logits, dim=-1)  # softmax(batch_size ,2)
 
-        #  User Style-Aware Attention Mechanism for Question Extraction end
+        #  Learning-Style-Aware Attention Mechanism for Question Extraction end
 
         #  Time-Aware Attention Mechanism for Answering Matching start
-        #  matching degrees between user style start
+        #  matching degrees between learning styles start
         # user_embed (batch_Size,1,embedding_dim)
         user_conn = user_connect(user_embed=user_embed, batch_size=self.batch_size,
                                  context_num=100)  # (batch_size,100,1,embedding_dim)
@@ -166,7 +166,7 @@ class STQAM(nn.Module):
                                dim=2)  # user_embed (batch_Size,100,2,embedding_size)
         user_final = user_final.reshape(user_final.shape[0], user_final.shape[1],
                                         -1)  # user_embed (batch_Size,100,2 * embedding_size)
-        #  matching degrees between user style end
+        #  matching degrees between learning styles end
 
         #  matching degrees between text information start
         # att_output (batch_size + 200,1,embedding_dim)
