@@ -2,14 +2,7 @@
 This repository provides the implementation of StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM).
 
 # 1. Abstract 
-We introduce Teaching Group Question-Answer Matching (TGQAM), a new educational task aimed at aligning questions with correct answers in educational groups.
-This task is essential for assessing teaching quality and understanding student engagement in online learning.
-However, TGQAM faces three challenges: (i) the scarcity of relevant datasets, (ii) the prevalence of unrelated dialogue in teaching groups, and (iii) the wide range of potential answers for each question, making accurate matching difficult.
-To address the first challenge, we gather two datasets from an anonymized university course, each of which spans one year, and develop a synthetic dataset that mimics teaching group dynamics, providing a foundational resource for TGQAM research.
-To tackle the second and third challenges, we propose StyleTimeQAM, a question-answer matching model that incorporates both student style and temporal information.
-It comprises two primary modules: the Learning-Style Aware-Attention Module and the Time-Aware Attention Module.
-The Learning-Style-Aware Attention Module filters out irrelevant dialogue by modeling student styles, while the Time-Aware Attention Module leverages a time decay kernel function to reduce irrelevant candidate answers and improve question-answer matching accuracy.
-Experimental results demonstrate that StyleTimeQAM achieves strong performance on real teaching-group datasets and confirm the effectiveness of incorporating student style and temporal information into QA matching.
+We propose StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM), a QA matching problem that aims to align questions with correct answers in online teaching groups. TGQAM is useful for assessing teaching quality and understanding student engagement, but it faces three challenges: (i) the scarcity of relevant datasets, (ii) the prevalence of unrelated dialogue in teaching groups, and (iii) the wide range of potential answers for each question. To address the first challenge, we collect two one-year datasets from an anonymized university course and develop a synthetic dataset that mimics teaching-group dynamics, providing a foundational resource for TGQAM research. To tackle the second and third challenges, StyleTimeQAM incorporates both learning-style and temporal information through two modules: the Learning-Style-Aware Attention Module and the Time-Aware Attention Module. The former filters out irrelevant dialogue by modeling students' tendencies to ask or answer questions, while the latter uses a personalized time decay kernel function to reduce irrelevant candidate answers and improve question-answer matching accuracy. Experimental results show that StyleTimeQAM achieves AUC scores of 0.8985/0.9353 under the TGQAM setting and 0.8729/0.9227 under the traditional QA setting on BigData22/BigData23, confirming the effectiveness of incorporating learning-style and temporal information into QA matching.
 
 
 # 2. Install the Requirements of Experiment
