@@ -1,106 +1,194 @@
 # StyleTimeQAM: Modeling Learning Style and Temporal Dynamics for Question-Answer Matching in Online Teaching Groups
-This repository provides the implementation of StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM).
 
-# 1. Abstract 
-We propose StyleTimeQAM for Teaching Group Question-Answer Matching (TGQAM), a QA matching problem that aims to align questions with correct answers in online teaching groups. TGQAM is useful for assessing teaching quality and understanding student engagement, but it faces three challenges: (i) the scarcity of relevant datasets, (ii) the prevalence of unrelated dialogue in teaching groups, and (iii) the wide range of potential answers for each question. To address the first challenge, we collect two one-year datasets from an anonymized university course and develop a synthetic dataset that mimics teaching-group dynamics, providing a foundational resource for TGQAM research. To tackle the second and third challenges, StyleTimeQAM incorporates both learning-style and temporal information through two modules: the Learning-Style-Aware Attention Module and the Time-Aware Attention Module. The former filters out irrelevant dialogue by modeling students' tendencies to ask or answer questions, while the latter uses a personalized time decay kernel function to reduce irrelevant candidate answers and improve question-answer matching accuracy. Experimental results show that StyleTimeQAM achieves AUC scores of 0.8985/0.9353 under the TGQAM setting and 0.8729/0.9227 under the traditional QA setting on BigData22/BigData23, confirming the effectiveness of incorporating learning-style and temporal information into QA matching.
+This repository provides the implementation of **StyleTimeQAM** for **Teaching Group Question-Answer Matching (TGQAM)**.
 
+## 1. Abstract
 
-# 2. Install the Requirements of Experiment
+We introduce Teaching Group Question-Answer Matching (TGQAM), which aims to identify questions and their corresponding answers from mixed chronological conversations in online teaching groups. TGQAM faces three main challenges: the lack of domain-specific datasets, the presence of substantial irrelevant dialogue, and large candidate-answer spaces. To support this task, we collect two real-world datasets from two annual cohorts of the same university course and construct an auxiliary synthetic benchmark that preserves selected temporal and student-activity distributions. We propose StyleTimeQAM, which combines a Learning-Style-Aware Attention Module with a Time-Aware Attention Module. In this work, learning style refers to task-specific interaction tendencies rather than fixed cognitive categories. The former integrates learned student-specific representations with conversation content to improve question identification, while the latter models personalized temporal decay and relation information for answer matching. On BigData22 and BigData23, StyleTimeQAM achieves AUC scores of 0.8985/0.9353 under the TGQAM setting and 0.8729/0.9227 under the traditional QA setting, supporting the effectiveness of student-specific interaction and temporal modeling on the evaluated real teaching-group data.
 
-    conda create -n STQAM_Env python=3
-    conda activate STQAM_Env
-    pip install torch
-    pip install pandas
-    pip install numpy
-    pip install scikit-learn
-    pip install matplotlib
-    pip install seaborn
-    pip install gensim
-    pip install tqdm
-    pip install tensorboardX
-    pip install json5
-    
-# 3. Running
- ## 3.1 Datasets Selection
-Select a dataset you want to include.
-There are three datasets: BigData22, BigData23, and Synthetic.
+## 2. Installation
+
+Create and activate a Conda environment:
+
+```bash
+conda create -n STQAM_Env python=3
+conda activate STQAM_Env
+```
+
+Install the required packages:
+
+```bash
+pip install torch
+pip install pandas
+pip install numpy
+pip install scikit-learn
+pip install matplotlib
+pip install seaborn
+pip install gensim
+pip install tqdm
+pip install tensorboardX
+pip install json5
+```
+
+> Note: The exact Python version used in the original experimental environment should be specified here once confirmed.
+
+## 3. Running
+
+### 3.1 Dataset Selection
+
+Three datasets are provided:
+
+- `BigData22`
+- `BigData23`
+- `Synthetic`
+
 ![dataset_type](./Figures/dataset_statistics.png "dataset_statistics")
 
-For StyleTimeQAM, the processed datasets are stored under `data/LEA_MODEL/`, such as `bigdata22_train.csv`, `bigdata22_valid.csv`, and `bigdata22_test.csv`.
+For StyleTimeQAM, the processed datasets are stored under:
 
-Before running the baseline models, please extract `bigdata22_dataset.7z`, `bigdata23_dataset.7z`, and `synthetic_dataset.7z` from `data/Baselines/`, and put the extracted files into `data/baseline_data/`, because the baseline scripts read data from `data/baseline_data/`.
+```text
+data/LEA_MODEL/
+```
 
-The dataset format of the baseline and StyleTimeQAM is different.
+For example:
 
-The dataset for the baseline has three columns, while the dataset for StyleTimeQAM has five columns:
+```text
+bigdata22_train.csv
+bigdata22_valid.csv
+bigdata22_test.csv
+```
 
-The first column is sentence, which represents the input sentence.
+Before running the baseline models, extract the following archives from:
 
-The second column is user_ID, which represents the student who wrote the sentence.
+```text
+data/Baselines/
+```
 
-The third column is label, which indicates whether the sentence is a question: 1 denotes a question and 0 denotes a non-question.
+Files to extract:
 
-The fourth column is match, which represents the matching relationship between the current sentence and the following 100 candidate sentences.
+```text
+bigdata22_dataset.7z
+bigdata23_dataset.7z
+synthetic_dataset.7z
+```
 
-The fifth column is timestamp, which records when the sentence was written.
-1 represents a match (the current sentence is the question and the future sentence is the answer), while 0 represents a mismatch.
+Place the extracted files into:
 
+```text
+data/baseline_data/
+```
 
-## 3.2 Running baselines model
-We use bigdata22 as an example of a dataset, and CNN as an example of a type of model(with questions noise).
+The baseline scripts read their input data from this directory.
 
-    python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 0
+The baseline models and StyleTimeQAM use different processed dataset formats. The processed baseline dataset contains three columns, while the processed StyleTimeQAM dataset contains five columns.
 
-We use bigdata22 as an example of a dataset, and CNN as an example of a type of model(without questions noise).
+For StyleTimeQAM, the five columns are:
 
-    python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 1
+1. **sentence**  
+   The input conversation sentence.
 
-## 3.3 Running StyleTimeQAM model
-We use bigdata22 as an example of a dataset(with questions noise).
+2. **user_ID**  
+   The student who wrote the sentence.
 
-    python STQAM_main.py --dataset_type bigdata22 --with_label 0
+3. **label**  
+   Indicates whether the sentence is a question:
+   - `1`: question
+   - `0`: non-question
 
-We use bigdata22 as an example of a dataset(without questions noise).
+4. **match**  
+   Represents the matching relationship between the current sentence and the following 100 candidate sentences:
+   - `1`: the current sentence is a question and a future candidate sentence is its corresponding answer
+   - `0`: mismatch
 
-    python STQAM_main.py --dataset_type bigdata22 --with_label 1
+5. **timestamp**  
+   Records when the sentence was written.
 
-# 4. Results
-## 4.1 Experiment Results
+### 3.2 Running Baseline Models
+
+We use `BigData22` and `CNN` as examples.
+
+Run CNN under the **TGQAM setting**, where question labels are not explicitly provided:
+
+```bash
+python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 0
+```
+
+Run CNN under the **traditional QA setting**, where question labels are explicitly provided:
+
+```bash
+python Baselines_main.py --dataset_type bigdata22 --model_type CNN --with_label 1
+```
+
+### 3.3 Running StyleTimeQAM
+
+Run StyleTimeQAM on `BigData22` under the **TGQAM setting**:
+
+```bash
+python STQAM_main.py --dataset_type bigdata22 --with_label 0
+```
+
+Run StyleTimeQAM on `BigData22` under the **traditional QA setting**, where question labels are explicitly provided:
+
+```bash
+python STQAM_main.py --dataset_type bigdata22 --with_label 1
+```
+
+## 4. Results
+
+### 4.1 Experimental Results
 
 ![experiment_result](./Figures/experiment_result1.png "experiment_result1")
 
-## 4.2 Basic configurations about baselines
+### 4.2 Baseline Hyperparameters
 
-In our setting, the batch_size is 128, the max_length is 50, and the dropout is 0.5.
+In our setting:
 
-The first table shows the baseline configurations under the TGQAM setting:
+- `batch_size = 128`
+- `max_length = 50`
+- `dropout = 0.5`
 
-||bigdata22|bigdata23|synthetic|
+#### TGQAM Setting
+
+The following table shows the baseline configurations under the TGQAM setting:
+
+| Model | BigData22 | BigData23 | Synthetic |
 |---|---|---|---|
-|AP-CNN |`wd`: 1e-5, `lr`: 1e-3 | `wd`: 5e-6, `lr`: 5e-4| `wd`: 1e-5, `lr`: 1e-4|
-|BiLSTM-attention|`wd`: 1e-5, `lr`: 5e-4|`wd`: 5e-6, `lr`: 5e-4 |`wd`: 1e-4, `lr`: 5e-3 |
-|AP-LSTM|`wd`: 1e-5, `lr`: 5e-5 |`wd`: 1e-6, `lr`: 5e-3 |`wd`: 5e-5, `lr`: 1e-4 | 
-|CNN|`wd`: 5e-5, `lr`: 5e-4 |`wd`: 5e-6, `lr`: 1e-3 |  `wd`: 1e-4, `lr`:5e-5| 
-|CNN-LSTM-CRF|`wd`: 1e-5, `lr`: 5e-3 | `wd`: 1e-6, `lr`: 5e-4| `wd`: 1e-4, `lr`: 5e-3|
-|ABCNN|`wd`: 1e-6, `lr`: 1e-4 | `wd`: 5e-6, `lr`: 1e-3|`wd`: 5e-5, `lr`:5e-3 | 
-|ESIM|`wd`: 1e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 5e-4|`wd`: 1e-4, `lr`: 5e-4|
+| AP-CNN | `wd`: 1e-5, `lr`: 1e-3 | `wd`: 5e-6, `lr`: 5e-4 | `wd`: 1e-5, `lr`: 1e-4 |
+| BiLSTM-attention | `wd`: 1e-5, `lr`: 5e-4 | `wd`: 5e-6, `lr`: 5e-4 | `wd`: 1e-4, `lr`: 5e-3 |
+| AP-LSTM | `wd`: 1e-5, `lr`: 5e-5 | `wd`: 1e-6, `lr`: 5e-3 | `wd`: 5e-5, `lr`: 1e-4 |
+| CNN | `wd`: 5e-5, `lr`: 5e-4 | `wd`: 5e-6, `lr`: 1e-3 | `wd`: 1e-4, `lr`: 5e-5 |
+| CNN-LSTM-CRF | `wd`: 1e-5, `lr`: 5e-3 | `wd`: 1e-6, `lr`: 5e-4 | `wd`: 1e-4, `lr`: 5e-3 |
+| ABCNN | `wd`: 1e-6, `lr`: 1e-4 | `wd`: 5e-6, `lr`: 1e-3 | `wd`: 5e-5, `lr`: 5e-3 |
+| ESIM | `wd`: 1e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 5e-4 | `wd`: 1e-4, `lr`: 5e-4 |
 
-The second table shows the baseline configurations under the traditional QA setting:
+#### Traditional QA Setting
 
-||bigdata22|bigdata23|synthetic|
+The following table shows the baseline configurations under the traditional QA setting:
+
+| Model | BigData22 | BigData23 | Synthetic |
 |---|---|---|---|
-|AP-CNN |`wd`: 5e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 1e-4| `wd`: 1e-5, `lr`: 5e-4|
-|BiLSTM-attention|`wd`: 5e-5, `lr`: 1e-3|`wd`: 1e-6, `lr`: 1e-3 |`wd`: 1e-5, `lr`: 1e-3 |
-|AP-LSTM|`wd`: 5e-5, `lr`: 1e-4 |`wd`: 1e-6, `lr`: 1e-3 |`wd`: 1e-4, `lr`: 5e-3 | 
-|CNN|`wd`: 5e-5, `lr`: 5e-3 |`wd`: 5e-6, `lr`: 1e-3 | `wd`: 1e-5, `lr`:1e-3| 
-|CNN-LSTM-CRF|`wd`: 5e-5, `lr`: 1e-3 | `wd`: 5e-5, `lr`: 1e-4| `wd`: 1e-5, `lr`: 5e-4|
-|ABCNN|`wd`: 1e-5, `lr`: 5e-5 | `wd`: 1e-6, `lr`: 5e-4|`wd`: 1e-4, `lr`:5e-4 | 
-|ESIM|`wd`: 1e-5, `lr`: 5e-3| `wd`: 1e-5, `lr`: 5e-4|`wd`: 1e-5, `lr`: 5e-5|
+| AP-CNN | `wd`: 5e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 5e-4 |
+| BiLSTM-attention | `wd`: 5e-5, `lr`: 1e-3 | `wd`: 1e-6, `lr`: 1e-3 | `wd`: 1e-5, `lr`: 1e-3 |
+| AP-LSTM | `wd`: 5e-5, `lr`: 1e-4 | `wd`: 1e-6, `lr`: 1e-3 | `wd`: 1e-4, `lr`: 5e-3 |
+| CNN | `wd`: 5e-5, `lr`: 5e-3 | `wd`: 5e-6, `lr`: 1e-3 | `wd`: 1e-5, `lr`: 1e-3 |
+| CNN-LSTM-CRF | `wd`: 5e-5, `lr`: 1e-3 | `wd`: 5e-5, `lr`: 1e-4 | `wd`: 1e-5, `lr`: 5e-4 |
+| ABCNN | `wd`: 1e-5, `lr`: 5e-5 | `wd`: 1e-6, `lr`: 5e-4 | `wd`: 1e-4, `lr`: 5e-4 |
+| ESIM | `wd`: 1e-5, `lr`: 5e-3 | `wd`: 1e-5, `lr`: 5e-4 | `wd`: 1e-5, `lr`: 5e-5 |
 
-## 4.3 Ablation experiment
+### 4.3 Ablation Study
+
+#### TGQAM Setting
 
 ![Ablation study under the TGQAM setting](./Figures/Ablation_TGQAM.png "Ablation study under the TGQAM setting")
 
+#### Traditional QA Setting
+
 ![Ablation study under the traditional QA setting](./Figures/Ablation_Traditional.png "Ablation study under the traditional QA setting")
 
-The ablation results on BigData22 under both TGQAM and traditional QA settings show that removing question extraction, time information, or user learning-style information leads to clear performance degradation. In contrast, removing the user relation matching module has a smaller effect, since learning-style information has already been incorporated into the conversation representation through the style-aware attention module. Therefore, user relation matching complements the conversation relation matching process.
+The ablation results on BigData22 under both TGQAM and traditional QA settings show that removing question extraction, temporal information, or student-specific interaction information leads to clear performance degradation. Removing the user relation matching module has a smaller effect because student-specific information is already incorporated into conversation representations by the Learning-Style-Aware Attention Module. These results support the usefulness of learned student-specific representations rather than predefined binary learning-style labels.
+
+## 5. Citation
+
+If you find this work useful, please cite our BESC 2026 paper.
+
+The official BibTeX entry will be added after the Springer proceedings are published.
